@@ -13,39 +13,46 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log('MongoDB connection error:', err));
-
-// Simple message schema to store chat messages
-const messageSchema = new mongoose.Schema({
-  user: String,
-  message: String,
-  timestamp: { type: Date, default: Date.now },
+mongoose.connect(process.env.MONGODB_URI, {})
+.then(() => {
+	console.log('MongoDB connected');
+}).catch((err) => {
+	console.log('MongoDB connection error:', err);
 });
 
-const Message = mongoose.model('Message', messageSchema);
+// // Simple message schema to store chat messages
+// const messageSchema = new mongoose.Schema({
+// 	user: String,
+// 	message: String,
+// 	timestamp: { type: Date, default: Date.now },
+// });
 
-// Socket.IO for real-time chat
-io.on('connection', (socket) => {
-  console.log('User connected');
-  
-  // Handle incoming chat messages
-  socket.on('chatMessage', (msg) => {
-    const message = new Message({ user: msg.user, message: msg.message });
-    message.save()
-      .then(() => {
-        io.emit('chatMessage', msg); // Broadcast to all connected clients
-      })
-      .catch((error) => console.log('Error saving message:', error));
-  });
+// const Message = mongoose.model('Message', messageSchema);
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+// // Socket.IO for real-time chat
+// io.on('connection', (socket) => {
+// 	console.log('User connected');
+	
+// 	// Handle incoming chat messages
+// 	socket.on('chatMessage', (msg) => {
+// 		const message = new Message({ user: msg.user, message: msg.message });
+// 		message.save()
+// 		.then(() => {
+// 			io.emit('chatMessage', msg); // Broadcast to all connected clients
+// 		}).catch((error) => {
+// 			console.log('Error saving message:', error);
+// 		});
+// 	});
+	
+// 	socket.on('disconnect', () => {
+// 		console.log('User disconnected');
+// 	});
+// });
 
+app.get("/", (req, res) => {
+	res.send("Hello");
+})
 // Start the server
-server.listen(5000, () => {
-  console.log('Server running on port 5000');
+server.listen(3000, () => {
+	console.log('Server running on port http://localhost:3000');
 });
