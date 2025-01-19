@@ -1,8 +1,49 @@
+.MsgBody{
+	width: 100vh;
+	height: 100vh;
+	border: 2px solid;
+	border-radius: 10px;
+	border-color: black;
+}
+
+.MsgBodyHeader{
+	text-align: center;
+}
+
+.sendMsgContainer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.MsgInput{
+	width: 50%;
+	height: 30px;
+	border: 2px solid;
+	border-color: black;
+	border-radius: 7px;
+	font-size: 1rem;
+}
+
+.SubBtn{
+	width: 10%;
+	height: 35px;
+	border: 2px solid;
+	border-color: black;
+	border-radius: 7px;
+	font-size: 1rem;
+}
+
 .UserPanel {
     width: 20vh;
     height: 100vh;
-    border: 1px solid;
+    border: 2px solid;
+	border-radius: 10px;
     border-color: black;
+}
 
+.panelHeader{
+	text-align: center;
 }
 

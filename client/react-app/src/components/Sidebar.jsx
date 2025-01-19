@@ -1,8 +1,10 @@
 function Sidebar(){
     return(
         <div>
-            <h2>Hello</h2>
-            <div className="UserPanel"></div>
+            <div className="UserPanel">
+				<p className="panelHeader">Users</p>
+				<hr />
+			</div>
         </div>
     )
 }
