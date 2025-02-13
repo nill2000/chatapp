@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, {})
 	console.log('MongoDB connection error:', err);
 });
 
+
 // // Simple message schema to store chat messages
 // const messageSchema = new mongoose.Schema({
 // 	user: String,
