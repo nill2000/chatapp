@@ -12,16 +12,19 @@ function MessageBody(){
 	}
 
     return(
+		<div className="MsgContainer">
 			<div className="MsgBody">
 				<p className="MsgBodyHeader">Messages</p>
 				<hr />
-				<div>
+				<div className="MsgList">
 					{Msgs.map((Msg, index) => (
-						<p key={index}>{Msg}</p>
+						<p key={index} className="MsgItem">{Msg}</p>
 					))}
 				</div>
 				<MessageInput sendMsgFunc={sendMsg}></MessageInput>
 			</div>
+
+		</div>
     )
 }
 
