@@ -41,11 +41,11 @@
 			}
 
 			.SubBtn{
-			min-width: 80px;
-			height: 35px;
-			border: 2px solid black;
-			border-radius: 7px;
-			font-size: 1rem;
+				min-width: 80px;
+				height: 35px;
+				border: 2px solid black;
+				border-radius: 7px;
+				font-size: 1rem;
 			}
 		}
 }
@@ -63,8 +63,46 @@
 		min-width: 350px;
 		border: 2px solid black;
 		border-radius: 10px;
+
+		display: flex;
+		flex-direction: column;
+
+		.SignInHeader{
+			text-align: center;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			font-size: 50px;
+			padding: 10px;
+		}
+
+		.LabelInputContainer{
+			align-self: center;
+			margin: 10px 10px;
+		}
+
+		.LabelInput{
+			min-width: 100px;
+			max-width: 150px;
+			height: 30px;
+			border: 2px solid black;
+			border-radius: 7px;
+			font-size: 1rem;
+		}
+		.LoginBtn{
+			align-self: center;
+			max-width: 100px;
+			height: 35px;
+			border: 2px solid black;
+			border-radius: 7px;
+			font-size: 1rem;
+			padding: 5px;
+			font-weight: bold;
+		}
 	}
+
+	
 }
+
 
 
 
