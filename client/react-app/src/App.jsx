@@ -12,7 +12,7 @@ function App() {
 					<Login></Login>
 				}></Route>
 
-				<Route path="/ChatRoom" element={
+				<Route path="/chatroom" element={
 						<MessageBody></MessageBody>
 				}></Route>
 			</Routes>
