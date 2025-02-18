@@ -8,10 +8,10 @@ function Login(){
 	const [userInput, setUserInput] = useState("");
 	const [roomInput, setRoomInput] = useState("");
 
-
 	const handleLogin = () => {
 		console.log("Username: ", userInput);
 		console.log("Room Code: ", roomInput);
+
 		navigate("/chatroom");
 	};
 

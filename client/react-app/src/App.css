@@ -25,6 +25,23 @@
 		padding: 10px;
 		}
 
+		.MsgList{
+			overflow-y: auto;
+			max-height: 500px;
+		}
+
+		.MsgItem{
+			height: auto;
+			min-height: 40px;
+			font-size: 20px;
+			margin: 3px 3px;
+			padding: 5px;
+			border: 1px solid black;
+			border-radius: 20px;
+			word-wrap: break-word;
+			overflow-wrap: break-word;
+		}
+
 		.sendMsgContainer{
 		width: 100%;
 		text-align: center;

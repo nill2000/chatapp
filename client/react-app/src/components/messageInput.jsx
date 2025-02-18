@@ -10,10 +10,25 @@ function MessageInput({ sendMsgFunc }){
 		setMsg("");
 	}
 
+	const handleKey = (event) => {
+		if(event.key === "Enter"){
+			event.preventDefault();
+			console.log("Message Sent: ", Message);
+			sendMsgFunc(Message);
+			setMsg("");
+		}
+	}
+
     return(
 		<div className="sendMsgContainer">
 			{/* Value sets the first item in the box. After typing, onChange() occurs and charges the value to be whatever was changed */}
-			<input className="MsgInput" type="text" value={Message} onChange={(e) => setMsg(e.target.value)}/>
+			<input className="MsgInput" 
+			type="text" 
+			value={Message} 
+			onChange={(e) => setMsg(e.target.value)} 
+			onKeyDown={(e) => {
+				handleKey(e)
+			}}/>
 			<button className="SubBtn" onClick={handleClick}>Submit</button>
 		</div>
 	)

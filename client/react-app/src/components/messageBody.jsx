@@ -1,13 +1,27 @@
 import MessageInput from "./MessageInput.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:3000");
 
 function MessageBody(){
-
 	const [Msgs, setMsgs] = useState([]);
+
+	useEffect(() => {
+		socket.on("connect", () => {
+			console.log("Connected:", socket.id);
+
+		return () => {
+			socket.disconnect();
+		}
+	})
+	}, []);
 
 	const sendMsg = (newMsg) => {
 		if (newMsg.trim() !== ""){
 			setMsgs([...Msgs, newMsg]);
+		} else{
+			console.log("Message is empty");
 		}
 	}
 
@@ -18,8 +32,12 @@ function MessageBody(){
 				<hr />
 				<div className="MsgList">
 					{Msgs.map((Msg, index) => (
-						<p key={index} className="MsgItem">{Msg}</p>
-					))}
+						<p key={index} className="MsgItem">
+							<p>{Msg}</p>
+							<p>Sender Name</p>
+						</p>
+					)
+					)}
 				</div>
 				<MessageInput sendMsgFunc={sendMsg}></MessageInput>
 			</div>
