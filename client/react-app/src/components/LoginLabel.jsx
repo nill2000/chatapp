@@ -2,7 +2,13 @@ import PropTypes from "prop-types";
 function LoginLabel({label, inputValue, setInputValue}){
 	return (
 	<div className="LabelInputContainer">
-		<input className="LabelInput" type="text" value={inputValue} onChange={(e) => {setInputValue(e.target.value)}} placeholder={label} required/>
+		<input 
+		className="LabelInput" 
+		type="text" 
+		value={inputValue} 
+		onChange={(e) => {setInputValue(e.target.value)}} 
+		placeholder={label} 
+		required/>
 	</div>
 	);
 }

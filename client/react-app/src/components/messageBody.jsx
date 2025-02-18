@@ -1,13 +1,23 @@
 import MessageInput from "./MessageInput.jsx";
-import { useState, useEffect } from "react";
+import { useData } from "./MyContext.jsx";
+import { useState, useEffect, } from "react";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:3000");
 
 function MessageBody(){
+	const {sharedData} = useData();
 	const [Msgs, setMsgs] = useState([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
+		// Checks if user or room is empty
+		if(sharedData.user == "" | sharedData.room == ""){
+			// Go to login page
+			navigate("/");
+		}
+
 		socket.on("connect", () => {
 			console.log("Connected:", socket.id);
 
@@ -28,13 +38,13 @@ function MessageBody(){
     return(
 		<div className="MsgContainer">
 			<div className="MsgBody">
-				<p className="MsgBodyHeader">Messages</p>
+				<p className="MsgBodyHeader">Room: {sharedData.room}</p>
 				<hr />
 				<div className="MsgList">
 					{Msgs.map((Msg, index) => (
 						<p key={index} className="MsgItem">
 							<p>{Msg}</p>
-							<p>Sender Name</p>
+							<p>{sharedData.user}</p>
 						</p>
 					)
 					)}

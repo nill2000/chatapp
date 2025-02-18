@@ -1,24 +1,28 @@
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { DataProvider } from "./Components/MyContext.jsx";
 import Login from './Components/Login.jsx'; 
 import MessageBody from './Components/MessageBody.jsx';
 import './App.css';
 
 function App() {
 	return (
-		<Router>
+		<DataProvider>
+			<Router>
+				<Routes>
+					<Route 
+					path="/" 
+					element={
+						<Login></Login>
+					}></Route>
 
-			<Routes>
-				<Route path="/" element={
-					<Login></Login>
-				}></Route>
-
-				<Route path="/chatroom" element={
-						<MessageBody></MessageBody>
-				}></Route>
-			</Routes>
-
-		</Router>
-		
+					<Route 
+					path="/chatroom" 
+					element={
+							<MessageBody></MessageBody>
+					}></Route>
+				</Routes>
+			</Router>
+		</DataProvider>
 	)
 }
 
