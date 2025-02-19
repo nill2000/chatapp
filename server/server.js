@@ -4,6 +4,7 @@ const socket = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const Message = require("./models/Message")
 
 const app = express();
 const server = http.createServer(app);
@@ -14,26 +15,27 @@ const io = socket(server, {
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
-const connectDB = async () => {
+
+app.get("/", (req, res) => {
+	res.send("Hello");
+})
+
+//Function ensures db is connected first
+const startServer = async () => {
 	await mongoose.connect(process.env.MONGODB_URI, {})
 	.then(() => {
 		console.log('MongoDB connected');
 	}).catch((err) => {
 		console.log('MongoDB connection error:', err);
 	})
-};
 
-app.get("/", (req, res) => {
-	res.send("Hello");
-})
+	//Run the server
+	server.listen(3000, () => {
+		console.log('Server Running: http://localhost:3000');
+	});
+}
 
-// Start the server
-server.listen(3000, () => {
-	console.log('Server running on port http://localhost:3000');
-});
-
-connectDB();
+startServer();
 
 io.on("connection", (socket) => {
 	// Notifies connection from frontend
@@ -41,23 +43,48 @@ io.on("connection", (socket) => {
 	console.log("-----------------");
 
 	// Socket.on listens for first param from "emit" in frontend
-	socket.on("joinRoom", (data) => {
+	socket.on("joinRoom", async (data) => {
 		socket.join(data.room);
 		console.log(`User "${data.user}" joined Room "${data.room}"`);
+
+		try {
+			// Load the 10 latest messages from DB and sort from ascending
+			const messages = await Message.find({room: data.room}).sort({createAt: 1}).limit(10);
+
+			//Emit to frontend to show the messages
+			socket.emit("loadMsgs", messages);
+		} catch (err){
+			console.err(err);
+		}
 	})
 
-	socket.on("sendMessage", (data) => {
+	socket.on("sendMessage", async (data) => {
 		// Notify where message was sent
 		console.log(`Message sent to Room: ${data.room}`);
 
-		// Sends the data to room number and emits info
-		io.to(data.room).emit("receiveMessage",{
+		const newMsg = new Message({
 			user: data.user,
+			room: data.room,
 			message: data.message
 		});
 
-		console.log("Message Emitted")
-	})
+		try {
+			await newMsg.save();
+			console.log("Save Message to Database");
+
+			// Sends the data to room number and emits info
+			io.to(data.room).emit("receiveMessage",{
+				user: data.user,
+				message: data.message
+			});
+
+			// Notifies recipient
+			console.log("Message Emitted")
+
+		} catch (err) {
+			console.err(err);
+		};
+	});
 
 	socket.on("disconnect", () => {
 		console.log("User Disconnected:", socket.id);
