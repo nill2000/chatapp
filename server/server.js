@@ -36,7 +36,8 @@ server.listen(3000, () => {
 connectDB();
 
 io.on("connection", (socket) => {
-	console.log("User ID:", socket.id);
+	// Notifies connection from frontend
+	console.log("User Connected:", socket.id);
 	console.log("-----------------");
 
 	// Socket.on listens for first param from "emit" in frontend
@@ -46,8 +47,15 @@ io.on("connection", (socket) => {
 	})
 
 	socket.on("sendMessage", (data) => {
+		// Notify where message was sent
 		console.log(`Message sent to Room: ${data.room}`);
-		io.to(data.room).emit("receiveMessage", data.message);
+
+		// Sends the data to room number and emits info
+		io.to(data.room).emit("receiveMessage",{
+			user: data.user,
+			message: data.message
+		});
+
 		console.log("Message Emitted")
 	})
 

@@ -4,9 +4,6 @@ import { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-// import { io } from "socket.io-client";
-// const socket = io("http://localhost:3000");
-
 function MessageBody({socket}){
 	const {sharedData} = useData();
 	const [Msgs, setMsgs] = useState([]);
@@ -20,19 +17,28 @@ function MessageBody({socket}){
 
 		console.log("Navigated");
 
+		// This prevents dupes when rerendering
+		socket.off("receiveMessage");
 		socket.on("receiveMessage", (data) => {
 			console.log("Message Received: ", data);
 			setMsgs(prev => [...prev, data])
 		})
+
+		return () => {
+			socket.off("receiveMessage");
+		}
 	
-	}, []);
+	}, [sharedData.user, sharedData.room, navigate, socket]);
 
 	const sendMsg = (newMsg) => {
 		if (newMsg.trim() !== ""){
-			// Update Msgs Locally
-			setMsgs(prev => [...prev, newMsg]);
+
 			// Emit message to backend
-			socket.emit("sendMessage", {room: sharedData.room, message: newMsg});
+			socket.emit("sendMessage", {
+				user: sharedData.user, 
+				room: sharedData.room, 
+				message: newMsg
+			});
 
 		} else{
 			console.log("Message is empty");
@@ -49,13 +55,16 @@ function MessageBody({socket}){
 				<div className="MsgList">
 					{Msgs.map((Msg, index) => (
 						<div key={index} className="MsgItem">
-							<p>{Msg}</p>
-							<p>{sharedData.user}</p>
+							<p>{Msg.user}</p>
+							<p>{Msg.message}</p>
 						</div>
 					)
 					)}
 				</div>
-				<MessageInput socket={socket} sendMsgFunc={sendMsg}></MessageInput>
+				<MessageInput 
+					socket={socket} 
+					sendMsgFunc={sendMsg}>
+				</MessageInput>
 			</div>
 
 		</div>

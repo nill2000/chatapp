@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import socket from "./socket.js";
 
 function App() {
+	// Place Connection in App and pass as props to keep connection consistent
 	useEffect(() => {
 		socket.connect();
 		console.log("Connected Finally");
