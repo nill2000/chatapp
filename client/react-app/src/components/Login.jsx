@@ -2,6 +2,9 @@ import { useState } from "react";
 import LoginLabel from "./LoginLabel";
 import { useNavigate } from "react-router-dom";
 import { useData } from "./MyContext";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:3000");
 
 function Login(){
 
@@ -14,6 +17,10 @@ function Login(){
 		console.log("Room Code: ", userRoomInput.room);
 		setSharedData(userRoomInput);
 		navigate("/chatroom");
+
+		// Send message to backend and assign user to room
+		socket.emit("joinRoom", userRoomInput);
+
 	};
 
 	return(

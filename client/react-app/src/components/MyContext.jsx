@@ -1,4 +1,6 @@
 import { createContext, useState, useContext } from "react";
+import PropTypes from "prop-types";
+
 
 const DataContext = createContext();
 
@@ -15,4 +17,9 @@ export function DataProvider({children}){
 export function useData(){
 	return useContext(DataContext);
 }
+
+DataProvider.propTypes = {
+	children: PropTypes.any
+}
+
 

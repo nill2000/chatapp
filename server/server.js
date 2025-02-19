@@ -39,6 +39,16 @@ io.on("connection", (socket) => {
 	console.log("User ID", socket.id);
 	console.log("-----------------");
 
+	// Socket.on listens for first param from "emit" in frontend
+	socket.on("joinRoom", (data) => {
+		socket.join(data.room);
+		console.log(`User: ${data.user} \nRoom: ${data.room}`);
+	})
+
+	socket.on("sendMessage", ({room, message}) => {
+		io.to(room).emit("receiveMessage", message);
+	})
+
 	socket.on("disconnect", () => {
 		console.log("User Disconnected:", socket.id);
 		console.log("-----------------");
