@@ -2,11 +2,12 @@ import { useState } from "react";
 import LoginLabel from "./LoginLabel";
 import { useNavigate } from "react-router-dom";
 import { useData } from "./MyContext";
-import { io } from "socket.io-client";
+import PropTypes from "prop-types";
 
-const socket = io("http://localhost:3000");
+// import { io } from "socket.io-client";
+// const socket = io("http://localhost:3000");
 
-function Login(){
+function Login({socket}){
 
 	const {setSharedData} = useData();
 	const navigate = useNavigate();
@@ -16,11 +17,10 @@ function Login(){
 		console.log("Username: ", userRoomInput.user);
 		console.log("Room Code: ", userRoomInput.room);
 		setSharedData(userRoomInput);
-		navigate("/chatroom");
 
 		// Send message to backend and assign user to room
 		socket.emit("joinRoom", userRoomInput);
-
+		navigate("/chatroom");
 	};
 
 	return(
@@ -52,3 +52,7 @@ function Login(){
 }
 
 export default Login;
+
+Login.propTypes = {
+	socket: PropTypes.object
+}

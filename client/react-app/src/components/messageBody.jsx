@@ -2,38 +2,44 @@ import MessageInput from "./MessageInput.jsx";
 import { useData } from "./MyContext.jsx";
 import { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
+import PropTypes from "prop-types";
 
-const socket = io("http://localhost:3000");
+// import { io } from "socket.io-client";
+// const socket = io("http://localhost:3000");
 
-function MessageBody(){
+function MessageBody({socket}){
 	const {sharedData} = useData();
 	const [Msgs, setMsgs] = useState([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		// Checks if user or room is empty
-		if(sharedData.user == "" | sharedData.room == ""){
-			// Go to login page
+		if(sharedData.user === "" || sharedData.room === ""){
 			navigate("/");
 		}
 
-		socket.on("connect", () => {
-			console.log("Connected:", socket.id);
+		console.log("Navigated");
 
-		return () => {
-			socket.disconnect();
-		}
-	})
+		socket.on("receiveMessage", (data) => {
+			console.log("Message Received: ", data);
+			setMsgs(prev => [...prev, data])
+		})
+	
 	}, []);
 
 	const sendMsg = (newMsg) => {
 		if (newMsg.trim() !== ""){
-			setMsgs([...Msgs, newMsg]);
+			// Update Msgs Locally
+			setMsgs(prev => [...prev, newMsg]);
+			// Emit message to backend
+			socket.emit("sendMessage", {room: sharedData.room, message: newMsg});
+
 		} else{
 			console.log("Message is empty");
 		}
 	}
+
+	
 
     return(
 		<div className="MsgContainer">
@@ -42,14 +48,14 @@ function MessageBody(){
 				<hr />
 				<div className="MsgList">
 					{Msgs.map((Msg, index) => (
-						<p key={index} className="MsgItem">
+						<div key={index} className="MsgItem">
 							<p>{Msg}</p>
 							<p>{sharedData.user}</p>
-						</p>
+						</div>
 					)
 					)}
 				</div>
-				<MessageInput sendMsgFunc={sendMsg}></MessageInput>
+				<MessageInput socket={socket} sendMsgFunc={sendMsg}></MessageInput>
 			</div>
 
 		</div>
@@ -57,3 +63,7 @@ function MessageBody(){
 }
 
 export default MessageBody
+
+MessageBody.propTypes = {
+	socket: PropTypes.object
+}

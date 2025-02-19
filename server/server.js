@@ -36,17 +36,19 @@ server.listen(3000, () => {
 connectDB();
 
 io.on("connection", (socket) => {
-	console.log("User ID", socket.id);
+	console.log("User ID:", socket.id);
 	console.log("-----------------");
 
 	// Socket.on listens for first param from "emit" in frontend
 	socket.on("joinRoom", (data) => {
 		socket.join(data.room);
-		console.log(`User: ${data.user} \nRoom: ${data.room}`);
+		console.log(`User "${data.user}" joined Room "${data.room}"`);
 	})
 
-	socket.on("sendMessage", ({room, message}) => {
-		io.to(room).emit("receiveMessage", message);
+	socket.on("sendMessage", (data) => {
+		console.log(`Message sent to Room: ${data.room}`);
+		io.to(data.room).emit("receiveMessage", data.message);
+		console.log("Message Emitted")
 	})
 
 	socket.on("disconnect", () => {
