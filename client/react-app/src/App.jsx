@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { DataProvider } from "./Components/MyContext.jsx";
+import { useEffect } from "react";
 import Login from './Components/Login.jsx'; 
 import MessageBody from './Components/MessageBody.jsx';
-import './App.css';
-import { useEffect } from "react";
+import './styles/Login.css';
+import './styles/MessageBody.css'
 import socket from "./socket.js";
 
 function App() {

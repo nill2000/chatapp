@@ -17,19 +17,26 @@ function MessageBody({socket}){
 
 		console.log("Navigated");
 
-		// This prevents dupes when rerendering
-		socket.off("receiveMessage");
+		//Load messages from db first
+		socket.on("loadMsgs", (data) => {
+			console.log("Loaded Messages from DB");
+			setMsgs(data);
+		})
+
+		// Handles incoming messages from live users
 		socket.on("receiveMessage", (data) => {
 			console.log("Message Received: ", data);
 			setMsgs(prev => [...prev, data])
 		})
 
 		return () => {
+			socket.off("loadMsgs");
 			socket.off("receiveMessage");
 		}
 	
 	}, [sharedData.user, sharedData.room, navigate, socket]);
 
+	//Function that looks for input from login and send to backend
 	const sendMsg = (newMsg) => {
 		if (newMsg.trim() !== ""){
 
@@ -44,8 +51,6 @@ function MessageBody({socket}){
 			console.log("Message is empty");
 		}
 	}
-
-	
 
     return(
 		<div className="MsgContainer">

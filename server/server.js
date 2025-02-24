@@ -53,6 +53,7 @@ io.on("connection", (socket) => {
 
 			//Emit to frontend to show the messages
 			socket.emit("loadMsgs", messages);
+			
 		} catch (err){
 			console.err(err);
 		}

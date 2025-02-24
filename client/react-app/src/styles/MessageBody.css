@@ -1,3 +1,5 @@
+/* Styles the MessageBody page */
+
 .MsgContainer{
 	display: flex;
 	justify-content: center;
@@ -67,72 +69,3 @@
 			}
 		}
 }
-
-.LoginContainer{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-
-	.LoginBody{
-		height: 55vh;
-		width: 50%;
-		max-width: 500px;
-		min-width: 350px;
-		border: 3px solid black;
-		border-radius: 10px;
-		background-color: white;
-
-		display: flex;
-		flex-direction: column;
-
-		.SignInHeader{
-			text-align: center;
-			font-family: Arial, Helvetica, sans-serif;
-			font-weight: bold;
-			font-size: 50px;
-			padding: 10px;
-		}
-
-		.LabelInputContainer{
-			align-self: center;
-			margin-top: 10px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.LabelInput{
-			width: 100%;
-			aspect-ratio: 8/1.5;
-			border: 2px solid black;
-			border-radius: 7px;
-			font-size: 1rem;
-		}
-		.LoginBtn{
-			align-self: center;
-			height: 45px;
-			width: auto;
-			aspect-ratio: 3/1;
-			border: 2px solid black;
-			border-radius: 7px;
-			font-size: 1rem;
-			padding: 5px;
-			font-weight: bold;
-			margin-top: auto;
-			margin-bottom: 1rem;
-			cursor:pointer;
-		}
-	}
-
-	
-}
-
-
-
-
-
-
-
-
-

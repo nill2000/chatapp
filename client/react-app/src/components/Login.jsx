@@ -1,14 +1,12 @@
 import { useState } from "react";
-import LoginLabel from "./LoginLabel";
 import { useNavigate } from "react-router-dom";
 import { useData } from "./MyContext";
 import PropTypes from "prop-types";
-
-// import { io } from "socket.io-client";
-// const socket = io("http://localhost:3000");
+import LoginLabel from "./LoginLabel";
 
 function Login({socket}){
 
+	// Context used to end user info from Login to MessageBody
 	const {setSharedData} = useData();
 	const navigate = useNavigate();
 	const [userRoomInput, setUserRoomInput] = useState({user:"", room:""});
@@ -16,6 +14,8 @@ function Login({socket}){
 	const handleLogin = () => {
 		console.log("Username: ", userRoomInput.user);
 		console.log("Room Code: ", userRoomInput.room);
+
+		// After the input, save the data thats going to be shared
 		setSharedData(userRoomInput);
 
 		// Send message to backend and assign user to room
