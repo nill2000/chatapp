@@ -2,9 +2,9 @@ Project Overview:
 The project is a real time application that allows multiple users to communicate
 
 Tech Stack & Features:
-Frontend: React
+Frontend: React 
 Backend: Node.js & Express.js
-Database: MongoDB
+Database: MongoDB - Preserve Messages
 Real-Time "Tool": Socket.io
 
 Installation:
